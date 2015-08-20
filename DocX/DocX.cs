@@ -4033,6 +4033,11 @@ namespace Novacode
             }
         }
 
+        /// <summary>
+        /// Set this to true to force all list items to be bulleted. Helps with the horrible performance of GetListItemType().
+        /// </summary>
+        public bool IgnoreListItemType { get; set; }
+
 
         /// <summary>
         /// Create an equation and insert it in the new paragraph

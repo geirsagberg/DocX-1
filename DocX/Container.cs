@@ -20,7 +20,7 @@ namespace Novacode
         /// using (DocX document = DocX.Load(@"Test.docx"))
         /// {
         ///    // All Paragraphs in this document.
-        ///    List<Paragraph> documentParagraphs = document.Paragraphs;
+        ///    List&lt;Paragraph&gt; documentParagraphs = document.Paragraphs;
         ///    
         ///    // Make sure this document contains at least one Table.
         ///    if (document.Tables.Count() > 0)
@@ -29,7 +29,7 @@ namespace Novacode
         ///        Table t = document.Tables[0];
         ///
         ///        // All Paragraphs in this Table.
-        ///        List<Paragraph> tableParagraphs = t.Paragraphs;
+        ///        List&lt;Paragraph&gt; tableParagraphs = t.Paragraphs;
         ///    
         ///        // Make sure this Table contains at least one Row.
         ///        if (t.Rows.Count() > 0)
@@ -38,7 +38,7 @@ namespace Novacode
         ///            Row r = t.Rows[0];
         ///
         ///            // All Paragraphs in this Row.
-        ///            List<Paragraph> rowParagraphs = r.Paragraphs;
+        ///            List&lt;Paragraph&gt; rowParagraphs = r.Paragraphs;
         ///
         ///            // Make sure this Row contains at least one Cell.
         ///            if (r.Cells.Count() > 0)
@@ -47,7 +47,7 @@ namespace Novacode
         ///                Cell c = r.Cells[0];
         ///
         ///                // All Paragraphs in this Cell.
-        ///                List<Paragraph> cellParagraphs = c.Paragraphs;
+        ///                List&lt;Paragraph&gt; cellParagraphs = c.Paragraphs;
         ///            }
         ///        }
         ///    }
@@ -70,8 +70,7 @@ namespace Novacode
 
                     p.ParentContainer = GetParentFromXmlName(p.Xml.Ancestors().First().Name.LocalName);
 
-                    if (p.IsListItem)
-                    {
+                    if (!Document.IgnoreListItemType && p.IsListItem) {
                         GetListItemType(p);
                     }
                 }
@@ -79,7 +78,7 @@ namespace Novacode
                 return paragraphs.AsReadOnly();
             }
         }
-        // <summary>
+        /// <summary>
         /// Removes paragraph at specified position
         /// </summary>
         /// <param name="index">Index of paragraph to remove</param>
@@ -534,7 +533,7 @@ namespace Novacode
                 );
             }
 
-            GetParent(p);
+            SetParent(p);
 
             return p;
         }
@@ -605,7 +604,7 @@ namespace Novacode
             Paragraph newParagraph = new Paragraph(Document, newXElement, index);
             Document.paragraphLookup.Add(index, newParagraph);
 
-            GetParent(newParagraph);
+            SetParent(newParagraph);
 
             return newParagraph;
         }
@@ -632,7 +631,7 @@ namespace Novacode
             else
                 Xml.Add(newParagraph);
 
-            GetParent(newParagraph);
+            SetParent(newParagraph);
 
             return newParagraph;
         }
@@ -666,7 +665,7 @@ namespace Novacode
             return parent;
         }
 
-        private void GetParent(Paragraph newParagraph)
+        private void SetParent(Paragraph newParagraph)
         {
             var containerType = GetType();
 
@@ -774,9 +773,9 @@ namespace Novacode
 
             Xml.Add(newParagraph);
 
-            var paragraphAdded = Paragraphs.Last();
+            var paragraphAdded = Paragraphs[Paragraphs.Count - 1];
 
-            GetParent(paragraphAdded);
+            SetParent(paragraphAdded);
 
             return paragraphAdded;
         }
