@@ -1934,7 +1934,7 @@ namespace Novacode
             List<XElement> newRuns = HelperFunctions.FormatInput(value, formatting.Xml);
             Xml.Add(newRuns);
 
-            HelperFunctions.RenumberIDs(Document);
+            //HelperFunctions.RenumberIDs(Document);
         }
 
         /// <summary>
@@ -2101,7 +2101,7 @@ namespace Novacode
                 }
             }
 
-            HelperFunctions.RenumberIDs(Document);
+            //HelperFunctions.RenumberIDs(Document);
         }
 
         /// <summary>
@@ -2113,7 +2113,7 @@ namespace Novacode
         {
             var runPropertiesElement = CreateRunPropertiesWithStyle(styleName);
             Xml.Add(HelperFunctions.FormatInput(value, runPropertiesElement));
-            HelperFunctions.RenumberIDs(Document);
+            //HelperFunctions.RenumberIDs(Document);
         }
 
         /// <summary>
@@ -2398,14 +2398,14 @@ namespace Novacode
         public void InsertAtBookmark(string toInsert, string bookmarkName)
         {
             var bookmark = Xml.Descendants(XName.Get("bookmarkStart", DocX.w.NamespaceName))
-                                .Where(x => x.Attribute(XName.Get("name", DocX.w.NamespaceName)).Value == bookmarkName).SingleOrDefault();
+                .SingleOrDefault(x => x.Attribute(XName.Get("name", DocX.w.NamespaceName)).Value == bookmarkName);
             if (bookmark != null)
             {
                 
                 var run = HelperFunctions.FormatInput(toInsert, null);
                 bookmark.AddBeforeSelf(run);
                 runs = Xml.Elements(XName.Get("r", DocX.w.NamespaceName)).ToList();
-                HelperFunctions.RenumberIDs(Document);
+                //HelperFunctions.RenumberIDs(Document);
             }
         }
 
@@ -3699,7 +3699,7 @@ namespace Novacode
             }
             while (processed < count);
 
-            HelperFunctions.RenumberIDs(Document);
+            //HelperFunctions.RenumberIDs(Document);
         }
 
 

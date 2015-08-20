@@ -543,19 +543,19 @@ namespace Novacode
 
         internal static void RenumberIDs(DocX document)
         {
-            IEnumerable<XAttribute> trackerIDs =
+            var trackerIDs =
                             (from d in document.mainDoc.Descendants()
                              where d.Name.LocalName == "ins" || d.Name.LocalName == "del"
-                             select d.Attribute(XName.Get("id", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")));
+                             select d.Attribute(XName.Get("id", "http://schemas.openxmlformats.org/wordprocessingml/2006/main"))).ToList();
 
-            for (int i = 0; i < trackerIDs.Count(); i++)
+            for (int i = 0; i < trackerIDs.Count; i++)
                 trackerIDs.ElementAt(i).Value = i.ToString();
         }
 
         internal static Paragraph GetFirstParagraphEffectedByInsert(DocX document, int index)
         {
             // This document contains no Paragraphs and insertion is at index 0
-            if (document.paragraphLookup.Keys.Count() == 0 && index == 0)
+            if (!document.paragraphLookup.Keys.Any() && index == 0)
                 return null;
 
             foreach (int paragraphEndIndex in document.paragraphLookup.Keys)

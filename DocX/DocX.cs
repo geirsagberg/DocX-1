@@ -3215,6 +3215,7 @@ namespace Novacode
         /// -->
         public void Save()
         {
+            HelperFunctions.RenumberIDs(this);
             Headers headers = Headers;
 
             // Save the main document
