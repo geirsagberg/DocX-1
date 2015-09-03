@@ -774,18 +774,27 @@ namespace Novacode
             Xml.Add(newParagraph);
 
             var paragraphAdded = new Paragraph(Document, newParagraph, 0);
-            if (this is Cell) {
+            if (this is Cell)
+            {
                 var cell = (Cell) this;
                 paragraphAdded.PackagePart = cell.mainPart;
-            } else if (this is DocX) {
+            }
+            else if (this is DocX)
+            {
                 paragraphAdded.PackagePart = Document.mainPart;
-            } else if (this is Footer) {
+            }
+            else if (this is Footer)
+            {
                 var footer = (Footer) this;
-                paragraphAdded.mainPart = footer.mainPart;
-            } else if (this is Header) {
+                paragraphAdded.PackagePart = footer.mainPart;
+            }
+            else if (this is Header)
+            {
                 var header = (Header) this;
-                paragraphAdded.mainPart = header.mainPart;
-            } else {
+                paragraphAdded.PackagePart = header.mainPart;
+            }
+            else
+            {
                 Console.WriteLine("No idea what we are {0}", this);
                 paragraphAdded.PackagePart = Document.mainPart;
             }
